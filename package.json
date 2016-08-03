@@ -1,6 +1,6 @@
 {
   "name": "vott-messenger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Facebook Messenger implementation for Vott",
   "main": "./lib/index.js",
   "scripts": {
