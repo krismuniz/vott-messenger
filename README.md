@@ -1,5 +1,83 @@
-# vott-messenger
+[![Vott for Messenger](https://github.com/krismuniz/vott-messenger/blob/master/header.svg)](https://www.npmjs.com/vott-messenger)
 
-[![npm](https://img.shields.io/npm/v/vott-messenger.svg?style=flat-square)](https://www.npmjs.com/vott-messenger) [![Build Status](https://img.shields.io/travis/krismuniz/vott-messenger.svg?style=flat-square)](http://travis-ci.org/krismuniz/vott-messenger) [![Coverage Status](https://img.shields.io/coveralls/krismuniz/vott-messenger.svg?style=flat-square)](https://coveralls.io/github/krismuniz/vott-messenger?branch=master) [![Dependency Status](https://img.shields.io/david/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger) [![Dev Dependency Status](https://img.shields.io/david/dev/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger)
+[![npm](https://img.shields.io/npm/v/vott-messenger.svg?style=flat-square)](https://www.npmjs.com/vott-messenger) [![License:MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![Build Status](https://img.shields.io/travis/krismuniz/vott-messenger.svg?style=flat-square)](http://travis-ci.org/krismuniz/vott-messenger) [![Coverage Status](https://img.shields.io/coveralls/krismuniz/vott-messenger.svg?style=flat-square)](https://coveralls.io/github/krismuniz/vott-messenger?branch=master) [![Dependency Status](https://img.shields.io/david/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger)
 
-Messenger implementation for [Vott](https://www.github.com/krismuniz/vott). **work-in-progress.**
+**Vott for Messenger** (i.e. `vott-messenger`) is a minimal, extensible framework for building Messenger bots.
+
+### Features
+
+* Fully extensible conversational flow (inbound/outbound middleware, event dispatcher middleware, and plugins)
+* Serves multiple pages from a single instance
+* Scoped questions for complex conversational trees
+* *Bring your own "hears" method* \*
+* *Custom persistence layer (i.e. datastore)* \*
+* Thoroughly tested
+
+_* In order to keep `vott` as unopinionated as possible, the framework makes no assumption on persistence layers or `hears` methods. This reduces framework complexity and allows developers to have full control and understanding of the datastore._
+
+### Installation
+
+```bash
+$ npm install --save vott-messenger
+```
+
+### Getting Started
+
+```js
+const MessengerBot = require('vott-messenger')
+/** (or some es6 module-loading love) */
+import MessengerBot from 'vott-messenger'
+
+/** instantiate MessengerBot */
+const myBot = new MessengerBot({
+  access_token: process.env.FB_PAGE_ACCESS_TOKEN,
+  verify_token: process.env.FB_VERIFY_TOKEN
+})
+
+/** usage example: */
+myBot.on('message_received', (bot, event) => {
+  bot.chat((chat) => {
+    chat.say('Hello!')
+    chat.ask('How are you?', (res, chat) => {
+      chat.save({ user_status: res.text })
+      chat.say('Ok')
+      chat.next()
+    })
+    chat.next()
+  })
+})
+```
+
+### Documentation
+
+Documentation, guides, and API reference coming soon. :)
+
+### Contributing
+[![Dev Dependency Status](https://img.shields.io/david/dev/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger) [![Code-Style:Standard](https://img.shields.io/badge/code%20style-standard-yellow.svg?style=flat-square)](http://standardjs.com/)
+
+#### Bug Reports & Feature Requests
+
+Something does not work as expected or perhaps you think this module needs a feature? Please open an issue using GitHub's issue tracker. Please be as specific and straightforward as possible.
+
+#### Developing
+
+Pull Requests (PRs) are welcome. Make sure you follow the [same basic stylistic conventions](http://standardjs.com/rules.html) as the original code. Your changes must be concise and focus on solving a single problem.
+
+#### Installation Instructions [for Contributors]
+
+Clone the repo:
+
+```bash
+$ git clone git@github.com:krismuniz/vott-messenger.git
+```
+
+Install all dependencies and run tests:
+```bash
+$ npm install && npm test
+```
+
+### License
+
+[The MIT License (MIT)](https://github.com/krismuniz/vott-messenger/blob/master/LICENSE.md)
+
+Copyright (c) 2016 [Kristian Muñiz](https://www.krismuniz.com)
