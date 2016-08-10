@@ -1,4 +1,4 @@
-[![Vott for Messenger](https://github.com/krismuniz/vott-messenger/blob/master/header.svg)](https://www.npmjs.com/vott-messenger)
+[![Vott for Messenger](https://cdn.rawgit.com/krismuniz/vott-messenger/master/header.svg)](https://www.npmjs.com/vott-messenger)
 
 [![npm](https://img.shields.io/npm/v/vott-messenger.svg?style=flat-square)](https://www.npmjs.com/vott-messenger) [![License:MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![Build Status](https://img.shields.io/travis/krismuniz/vott-messenger.svg?style=flat-square)](http://travis-ci.org/krismuniz/vott-messenger) [![Coverage Status](https://img.shields.io/coveralls/krismuniz/vott-messenger.svg?style=flat-square)](https://coveralls.io/github/krismuniz/vott-messenger?branch=master) [![Dependency Status](https://img.shields.io/david/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger)
 
