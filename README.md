@@ -4,7 +4,7 @@
 
 **Vott for Messenger** (i.e. `vott-messenger`) is a minimal, extensible framework for building Messenger bots.
 
-### Features
+## Features
 
 * Fully extensible conversational flow (inbound/outbound middleware, event dispatcher middleware, and plugins)
 * Serves multiple pages from a single instance
@@ -15,13 +15,13 @@
 
 _* In order to keep `vott` as unopinionated as possible, the framework makes no assumption on persistence layers or `hears` methods. This reduces framework complexity and allows developers to have full control and understanding of the datastore._
 
-### Installation
+## Installation
 
 ```bash
 $ npm install --save vott-messenger
 ```
 
-### Getting Started
+## Getting Started
 
 ```js
 const MessengerBot = require('vott-messenger')
@@ -48,11 +48,11 @@ myBot.on('message_received', (bot, event) => {
 })
 ```
 
-### Documentation
+## Documentation
 
 Documentation, guides, and API reference coming soon. :)
 
-### Contributing
+## Contributing
 [![Dev Dependency Status](https://img.shields.io/david/dev/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger) [![Code-Style:Standard](https://img.shields.io/badge/code%20style-standard-yellow.svg?style=flat-square)](http://standardjs.com/)
 
 #### Bug Reports & Feature Requests
@@ -76,7 +76,7 @@ Install all dependencies and run tests:
 $ npm install && npm test
 ```
 
-### License
+## License
 
 [The MIT License (MIT)](https://github.com/krismuniz/vott-messenger/blob/master/LICENSE.md)
 
