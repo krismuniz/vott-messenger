@@ -36,7 +36,7 @@ const myBot = new MessengerBot({
 
 /** usage example: */
 myBot.on('message_received', (bot, event) => {
-  bot.chat((chat) => {
+  bot.chat(event, (chat) => {
     chat.say('Hello!')
     chat.ask('How are you?', (res, chat) => {
       chat.save({ user_status: res.text })
