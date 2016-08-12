@@ -74,23 +74,26 @@ export class MessengerBot extends Vott {
     this.inbound(event, (bot, event) => {
       if (event.message) {
         if (event.message.is_echo) {
-          this.emit('message_echo', this, event)
+          this.dispatch('message_echo', event)
         } else {
+          event.chat_enabled = true
           this.dispatch('message_received', event)
         }
       } else if (event.postback) {
         event.message = { text: event.postback.payload }
+        event.chat_enabled = true
+
         this.dispatch('postback_received', event)
       } else if (event.optin) {
-        this.emit('optin', this, event)
+        this.dispatch('optin', event)
       } else if (event.account_linking) {
-        this.emit('account_linking', this, event)
+        this.dispatch('account_linking', event)
       } else if (event.delivery) {
-        this.emit('message_delivered', this, event)
+        this.dispatch('message_delivered', event)
       } else if (event.read) {
-        this.emit('message_read', this, event)
+        this.dispatch('message_read', event)
       } else {
-        this.emit('unhandled_event', this, event)
+        this.dispatch('unhandled_event', event)
       }
     })
   }

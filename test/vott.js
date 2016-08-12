@@ -2,7 +2,7 @@ import test from 'ava'
 import MessengerBot from '../src/index'
 import nock from 'nock'
 
-test.beforeEach(t => {
+test.beforeEach((t) => {
   /** sender_action: plain text */
   nock('https://graph.facebook.com')
     .post('/v2.6/me/messages', {
@@ -270,6 +270,7 @@ test('[VottMessenger#receive] dispatches message_received', (t) => {
       message: {
         text: 'hi'
       },
+      chat_enabled: true,
       type: 'message_received'
     })
   })
@@ -312,6 +313,7 @@ test('[VottMessenger#receive] dispatches postback_received', (t) => {
       postback: {
         payload: 'hi'
       },
+      chat_enabled: true,
       type: 'postback_received'
     })
   })
@@ -344,7 +346,8 @@ test('[VottMessenger#receive] emits optin', (t) => {
       },
       optin: {
         ref: 'PASS_THRU'
-      }
+      },
+      type: 'optin'
     })
   })
 })
@@ -378,7 +381,8 @@ test('[VottMessenger#receive] emits account_linking', (t) => {
       account_linking: {
         status: 'linked',
         authorization_code: 'ABC'
-      }
+      },
+      type: 'account_linking'
     })
   })
 })
@@ -410,7 +414,8 @@ test('[VottMessenger#receive] emits message_delivered', (t) => {
       },
       delivery: {
         a: 'a'
-      }
+      },
+      type: 'message_delivered'
     })
   })
 })
@@ -442,7 +447,8 @@ test('[VottMessenger#receive] emits message_read', (t) => {
       },
       read: {
         a: 'a'
-      }
+      },
+      type: 'message_read'
     })
   })
 })
@@ -476,7 +482,8 @@ test('[VottMessenger#receive] emits message_echo', (t) => {
       message: {
         is_echo: true,
         text: 'hi'
-      }
+      },
+      type: 'message_echo'
     })
   })
 })
@@ -508,7 +515,8 @@ test('[VottMessenger#receive] emits unhandled_event', (t) => {
       },
       ununactium: {
         a: 'a'
-      }
+      },
+      type: 'unhandled_event'
     })
   })
 })
