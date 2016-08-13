@@ -241,7 +241,7 @@ test('[VottMessenger#receive] dispatches message_received', (t) => {
     access_token: 'ABC'
   })
 
-  bot.use('dispatch', (bot, event, next) => {
+  bot.use('message_received', (bot, event, next) => {
     event.custom_field = 'a'
     next()
   })
@@ -281,7 +281,7 @@ test('[VottMessenger#receive] dispatches postback_received', (t) => {
     access_token: 'ABC'
   })
 
-  bot.use('dispatch', (bot, event, next) => {
+  bot.use('postback_received', (bot, event, next) => {
     event.custom_field = 'a'
     next()
   })
