@@ -271,7 +271,7 @@ test('[VottMessenger#receive] dispatches message_received', (t) => {
         text: 'hi'
       },
       chat_enabled: true,
-      type: 'message_received'
+      event_type: 'message_received'
     })
   })
 })
@@ -314,7 +314,7 @@ test('[VottMessenger#receive] dispatches postback_received', (t) => {
         payload: 'hi'
       },
       chat_enabled: true,
-      type: 'postback_received'
+      event_type: 'postback_received'
     })
   })
 })
@@ -347,7 +347,7 @@ test('[VottMessenger#receive] emits optin', (t) => {
       optin: {
         ref: 'PASS_THRU'
       },
-      type: 'optin'
+      event_type: 'optin'
     })
   })
 })
@@ -382,7 +382,7 @@ test('[VottMessenger#receive] emits account_linking', (t) => {
         status: 'linked',
         authorization_code: 'ABC'
       },
-      type: 'account_linking'
+      event_type: 'account_linking'
     })
   })
 })
@@ -415,7 +415,7 @@ test('[VottMessenger#receive] emits message_delivered', (t) => {
       delivery: {
         a: 'a'
       },
-      type: 'message_delivered'
+      event_type: 'message_delivered'
     })
   })
 })
@@ -448,7 +448,7 @@ test('[VottMessenger#receive] emits message_read', (t) => {
       read: {
         a: 'a'
       },
-      type: 'message_read'
+      event_type: 'message_read'
     })
   })
 })
@@ -483,7 +483,7 @@ test('[VottMessenger#receive] emits message_echo', (t) => {
         is_echo: true,
         text: 'hi'
       },
-      type: 'message_echo'
+      event_type: 'message_echo'
     })
   })
 })
@@ -516,7 +516,7 @@ test('[VottMessenger#receive] emits unhandled_event', (t) => {
       ununactium: {
         a: 'a'
       },
-      type: 'unhandled_event'
+      event_type: 'unhandled_event'
     })
   })
 })
