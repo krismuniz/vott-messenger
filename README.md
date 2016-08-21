@@ -21,12 +21,10 @@ _* In order to keep `vott` as unopinionated as possible, the framework makes no 
 $ npm install --save vott-messenger
 ```
 
-## Getting Started
+## Quick Example
 
 ```js
 const MessengerBot = require('vott-messenger')
-/** (or some es6 module-loading love) */
-import MessengerBot from 'vott-messenger'
 
 /** instantiate MessengerBot */
 const myBot = new MessengerBot({
