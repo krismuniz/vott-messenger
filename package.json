@@ -9,7 +9,7 @@
     "test": "standard && cross-env NODE_ENV=test nyc ava --verbose",
     "report": "nyc report --reporter=html",
     "try": "npm run build && node index",
-    "prepublish": "npm run build"
+    "prepublish": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",
