@@ -1,7 +1,7 @@
 import Vott from 'vott'
 import express from 'express'
 import bodyParser from 'body-parser'
-import request from 'request-promise'
+import request from 'request-promise-native'
 
 export class MessengerBot extends Vott {
   constructor (config) {
