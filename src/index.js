@@ -79,6 +79,10 @@ export class MessengerBot extends Vott {
           event.chat_enabled = true
           this.dispatch('message_received', event)
         }
+      } else if (event.delivery) {
+        this.dispatch('message_delivered', event)
+      } else if (event.read) {
+        this.dispatch('message_read', event)
       } else if (event.postback) {
         event.message = { text: event.postback.payload }
         event.chat_enabled = true
@@ -86,12 +90,14 @@ export class MessengerBot extends Vott {
         this.dispatch('postback_received', event)
       } else if (event.optin) {
         this.dispatch('optin', event)
+      } else if (event.referral) {
+        this.dispatch('referral', event)
+      } else if (event.payment) {
+        this.dispatch('payment', event)
+      } else if (event.checkout_update) {
+        this.dispatch('checkout_update', event)
       } else if (event.account_linking) {
         this.dispatch('account_linking', event)
-      } else if (event.delivery) {
-        this.dispatch('message_delivered', event)
-      } else if (event.read) {
-        this.dispatch('message_read', event)
       } else {
         this.dispatch('unhandled_event', event)
       }

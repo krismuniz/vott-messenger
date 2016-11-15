@@ -352,6 +352,111 @@ test('[VottMessenger#receive] emits optin', (t) => {
   })
 })
 
+test('[VottMessenger#receive] emits payment', (t) => {
+  const bot = new MessengerBot({
+    access_token: 'ABC'
+  })
+
+  return new Promise((resolve, reject) => {
+    bot.on('payment', (bot, event) => {
+      resolve(event)
+    })
+
+    bot.receive({
+      user: {
+        id: 'songo',
+        page_id: 'my_page'
+      },
+      payment: {
+        prop_a: 'A',
+        prop_b: 'B'
+      }
+    })
+  }).then((value) => {
+    t.deepEqual(value, {
+      user: {
+        id: 'songo',
+        page_id: 'my_page'
+      },
+      payment: {
+        prop_a: 'A',
+        prop_b: 'B'
+      },
+      event_type: 'payment'
+    })
+  })
+})
+
+test('[VottMessenger#receive] emits referral', (t) => {
+  const bot = new MessengerBot({
+    access_token: 'ABC'
+  })
+
+  return new Promise((resolve, reject) => {
+    bot.on('referral', (bot, event) => {
+      resolve(event)
+    })
+
+    bot.receive({
+      user: {
+        id: 'songo',
+        page_id: 'my_page'
+      },
+      referral: {
+        prop_a: 'A',
+        prop_b: 'B'
+      }
+    })
+  }).then((value) => {
+    t.deepEqual(value, {
+      user: {
+        id: 'songo',
+        page_id: 'my_page'
+      },
+      referral: {
+        prop_a: 'A',
+        prop_b: 'B'
+      },
+      event_type: 'referral'
+    })
+  })
+})
+
+test('[VottMessenger#receive] emits checkout_update', (t) => {
+  const bot = new MessengerBot({
+    access_token: 'ABC'
+  })
+
+  return new Promise((resolve, reject) => {
+    bot.on('checkout_update', (bot, event) => {
+      resolve(event)
+    })
+
+    bot.receive({
+      user: {
+        id: 'songo',
+        page_id: 'my_page'
+      },
+      checkout_update: {
+        prop_a: 'A',
+        prop_b: 'B'
+      }
+    })
+  }).then((value) => {
+    t.deepEqual(value, {
+      user: {
+        id: 'songo',
+        page_id: 'my_page'
+      },
+      checkout_update: {
+        prop_a: 'A',
+        prop_b: 'B'
+      },
+      event_type: 'checkout_update'
+    })
+  })
+})
+
 test('[VottMessenger#receive] emits account_linking', (t) => {
   const bot = new MessengerBot({
     access_token: 'ABC'
