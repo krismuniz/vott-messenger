@@ -1,19 +1,20 @@
 # [![Vott for Messenger](https://cdn.rawgit.com/krismuniz/vott-messenger/master/header.svg)](https://www.npmjs.com/vott-messenger)
 
-[![npm](https://img.shields.io/npm/v/vott-messenger.svg?style=flat-square)](https://www.npmjs.com/vott-messenger) [![License:MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![Build Status](https://img.shields.io/travis/krismuniz/vott-messenger.svg?style=flat-square)](http://travis-ci.org/krismuniz/vott-messenger) [![Coverage Status](https://img.shields.io/coveralls/krismuniz/vott-messenger.svg?style=flat-square)](https://coveralls.io/github/krismuniz/vott-messenger?branch=master) [![Dependency Status](https://img.shields.io/david/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger)
+[![npm](https://img.shields.io/npm/v/vott-messenger.svg?style=flat-square)](https://www.npmjs.com/vott-messenger) [![License:MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![Build Status](https://img.shields.io/travis/krismuniz/vott-messenger.svg?style=flat-square)](http://travis-ci.org/krismuniz/vott-messenger) [![Coverage Status](https://img.shields.io/coveralls/krismuniz/vott-messenger.svg?style=flat-square)](https://coveralls.io/github/krismuniz/vott-messenger?branch=master) [![Dependency Status](https://img.shields.io/david/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger) [![Known Vulnerabilities](https://snyk.io/test/github/krismuniz/vott-messenger/badge.svg?style=flat-square)](https://snyk.io/test/github/krismuniz/vott-messenger)
 
 **Vott for Messenger** (i.e. `vott-messenger`) is a minimal, extensible framework for building Messenger bots.
 
 ## Features
 
-* Fully extensible conversational flow (inbound/outbound middleware, event dispatcher middleware, and plugins)
+* Fully extensible conversational flow (middleware and plugins)
 * Serves multiple pages from a single instance
 * Scoped questions for complex conversational trees
-* *Bring your own "hears" method* \*
-* *Custom persistence layer (i.e. datastore)* \*
-* Thoroughly tested
+* [Thoroughly](https://coveralls.io/github/krismuniz/vott-messenger) [tested](http://travis-ci.org/krismuniz/vott-messenger) and [secure](https://snyk.io/test/github/krismuniz/vott-messenger)
 
-_* In order to keep `vott` as unopinionated as possible, the framework makes no assumption on persistence layers or `hears` methods. This reduces framework complexity and allows developers to have full control and understanding of the datastore._
+
+#### Simplicity First
+
+In order to keep `vott` as simple as possible, `vott` makes no assumption on state-management, persistence layers, or message-processing functionality. Extra functionality must be provided by developers and third-party plugins or middleware.
 
 ## Installation
 
