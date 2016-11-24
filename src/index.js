@@ -43,6 +43,7 @@ export class MessengerBot extends Vott {
 
           request(options).then((res) => {
             this.log('message_sent', `Sent message to ${event.user.id}`, res)
+            this.emit('message_sent', message)
           }).catch((error) => {
             this.log('send_error', 'Message not sent', { error, event })
           })
