@@ -41,15 +41,14 @@ export class MessengerBot extends Vott {
             json: true
           }
 
-          request(options).then((res) => {
-            this.log('message_sent', `Sent message to ${event.user.id}`, res)
-            this.emit('message_sent', message)
+          request(options).then((response) => {
+            this.emit('message_sent', { response, message })
           }).catch((error) => {
-            this.log('send_error', 'Message not sent', { error, event })
+            this.emit('error', error)
           })
         })
       } else {
-        this.log('send_error', `Token not found ${event.user.page_id}`, event)
+        this.emit('error', { message: 'Token not found.' })
       }
     })
   }
@@ -128,7 +127,8 @@ export class MessengerBot extends Vott {
     this.webserver.use(bodyParser.urlencoded({ extended: true }))
 
     this.webserver.listen(port, () => {
-      this.log('webserver_set', `Listening on port ${port}`)
+      this.emit('webserver_listening', this.webserver)
+
       if (callback) callback(null, this.webserver)
     })
 
@@ -182,8 +182,6 @@ export class MessengerBot extends Vott {
     if (webserver) {
       webserver.post(this.config.endpoint, this._post.bind(this))
       webserver.get(this.config.endpoint, this._get.bind(this))
-
-      this.log('webhook_set', `Receiving webhooks at ${this.config.endpoint}`)
     } else {
       throw Error('No web server set or passed as argument')
     }

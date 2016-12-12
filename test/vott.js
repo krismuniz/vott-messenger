@@ -1,6 +1,7 @@
 import test from 'ava'
 import MessengerBot from '../src/index'
 import nock from 'nock'
+import express from 'express'
 
 test.beforeEach((t) => {
   /** sender_action: plain text */
@@ -79,6 +80,15 @@ test('[VottMessenger#constructor] properly constructs class', (t) => {
   t.is(bot.config.port, 5000)
 })
 
+test('[VottMessenger#constructor] maintains default configuration when no config given', (t) => {
+  const bot = new MessengerBot()
+
+  t.is(bot.config.tick_interval, 1000)
+  t.is(bot.config.max_thread_age, 1800000)
+  t.is(bot.config.endpoint, '/facebook/receive')
+  t.is(bot.config.port, 8080)
+})
+
 test('[VottMessenger#constructor] properly constructs with defaults', (t) => {
   const bot = new MessengerBot({
     access_token: 'ABC',
@@ -97,9 +107,7 @@ test('[VottMessenger#send] sends a text message', (t) => {
   })
 
   return new Promise((resolve, reject) => {
-    bot.on('log', (bot, event) => {
-      resolve(event)
-    })
+    bot.on('message_sent', (event) => { resolve(event) })
 
     bot.send({
       user: {
@@ -112,7 +120,7 @@ test('[VottMessenger#send] sends a text message', (t) => {
       }
     })
   }).then((v) => {
-    t.deepEqual(v.payload, {
+    t.deepEqual(v.response, {
       recipient_id: '0',
       message_id: 'mid.001'
     })
@@ -125,12 +133,12 @@ test('[VottMessenger#send] sends a sender_action: typing on', (t) => {
   })
 
   return new Promise((resolve, reject) => {
-    bot.on('log', (bot, event) => {
+    bot.on('message_sent', (event) => {
       resolve(event)
     })
     bot.typingOn({ user: { id: '0' } })
   }).then((v) => {
-    t.deepEqual(v.payload, {
+    t.deepEqual(v.response, {
       recipient_id: '0',
       message_id: 'mid.002'
     })
@@ -143,12 +151,12 @@ test('[VottMessenger#send] sends a sender_action: typing off', (t) => {
   })
 
   return new Promise((resolve, reject) => {
-    bot.on('log', (bot, event) => {
+    bot.on('message_sent', (event) => {
       resolve(event)
     })
     bot.typingOff({ user: { id: '0' } })
   }).then((v) => {
-    t.deepEqual(v.payload, {
+    t.deepEqual(v.response, {
       recipient_id: '0',
       message_id: 'mid.003'
     })
@@ -171,20 +179,20 @@ test('[VottMessenger#send] uses phone number when !user.id', (t) => {
   }
 
   return new Promise((resolve, reject) => {
-    bot.on('log', (bot, event) => {
+    bot.on('message_sent', (event) => {
       resolve(event)
     })
 
     bot.send(message)
   }).then((v) => {
-    t.deepEqual(v.payload, {
+    t.deepEqual(v.response, {
       recipient_id: '0',
       message_id: 'mid.004'
     })
   })
 })
 
-test('[VottMessenger#send] properly emits log event when send fails', (t) => {
+test('[VottMessenger#send] properly emits `error` event when send fails', (t) => {
   const bot = new MessengerBot({
     access_token: 'DEF' // wrong token on purpose
   })
@@ -200,19 +208,17 @@ test('[VottMessenger#send] properly emits log event when send fails', (t) => {
   }
 
   return new Promise((resolve, reject) => {
-    bot.on('log', (bot, event) => {
-      resolve(event)
+    bot.on('error', (error) => {
+      resolve(error)
     })
 
     bot.send(message)
-  }).then((v) => {
-    t.is(v.event_type, 'send_error')
-    t.deepEqual(v.payload.event, message)
-    t.truthy(v.payload.error)
+  }).then((error) => {
+    t.truthy(error)
   })
 })
 
-test('[VottMessenger#send] log error when token not found', (t) => {
+test('[VottMessenger#send] logs error when token not found', (t) => {
   const bot = new MessengerBot({}) // no tokens ;)
   const message = {
     user: {
@@ -225,14 +231,13 @@ test('[VottMessenger#send] log error when token not found', (t) => {
   }
 
   return new Promise((resolve, reject) => {
-    bot.on('log', (bot, event) => {
-      resolve(event)
+    bot.on('error', (error) => {
+      resolve(error)
     })
 
     bot.send(message)
   }).then((v) => {
-    t.is(v.event_type, 'send_error')
-    t.is(v.payload, message)
+    t.is(v.message, 'Token not found.')
   })
 })
 
@@ -860,32 +865,42 @@ test('[VottMessenger#setupWebhooks] properly sets up GET endpoint', (t) => {
   const bot = new MessengerBot()
 
   return new Promise((resolve, reject) => {
-    bot.on('log', (bot, event) => {
-      if (event.event_type === 'webhook_set') {
-        resolve(event)
-      }
-    })
     bot.setupServer(8082).setupWebhooks()
-  }).then((obj) => {
-    t.is(obj.event_type, 'webhook_set')
-    t.truthy(obj.message)
+    resolve(bot.webserver)
+  }).then((server) => {
+    let routeGET = server._router.stack
+      .filter(x => x.route && x.route.path === '/facebook/receive')
+      .filter(x => x.route.methods.get && x.route.methods.get === true)
+
+    let routePOST = server._router.stack
+      .filter(x => x.route && x.route.path === '/facebook/receive')
+      .filter(x => x.route.methods.post && x.route.methods.post === true)
+
+    t.true(routeGET.length > 0)
+    t.true(routePOST.length > 0)
   })
 })
 
-test('[VottMessenger#setupWebhooks] mods server passed as argument', (t) => {
+test('[VottMessenger#setupWebhooks] modifies app passed as argument', (t) => {
   const bot = new MessengerBot()
+  const app = express()
 
   return new Promise((resolve, reject) => {
-    bot.on('log', (bot, event) => {
-      if (event.event_type === 'webhook_set') {
-        resolve(event)
-      }
-    })
-    bot.setupServer(8083)
-    bot.setupWebhooks(bot.webserver)
-  }).then((obj) => {
-    t.is(obj.event_type, 'webhook_set')
-    t.truthy(obj.message)
+    bot.setupWebhooks(app)
+    app.listen()
+
+    resolve(app)
+  }).then((server) => {
+    let routeGET = server._router.stack
+      .filter(x => x.route && x.route.path === '/facebook/receive')
+      .filter(x => x.route.methods.get && x.route.methods.get === true)
+
+    let routePOST = server._router.stack
+      .filter(x => x.route && x.route.path === '/facebook/receive')
+      .filter(x => x.route.methods.post && x.route.methods.post === true)
+
+    t.true(routeGET.length > 0)
+    t.true(routePOST.length > 0)
   })
 })
 
