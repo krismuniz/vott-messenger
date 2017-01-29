@@ -79,4 +79,4 @@ $ npm install && npm test
 
 [The MIT License (MIT)](https://github.com/krismuniz/vott-messenger/blob/master/LICENSE.md)
 
-Copyright (c) 2016 [Kristian Muñiz](https://www.krismuniz.com)
+Copyright (c) 2017 [Kristian Muñiz](https://www.krismuniz.com)
