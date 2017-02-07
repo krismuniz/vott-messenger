@@ -29,7 +29,7 @@
     "express": "4.14.1",
     "request": "2.79.0",
     "request-promise-native": "1.0.3",
-    "vott": "1.8.1"
+    "vott": "1.8.2"
   },
   "devDependencies": {
     "ava": "0.18.0",
