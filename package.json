@@ -26,7 +26,7 @@
   ],
   "dependencies": {
     "body-parser": "1.17.0",
-    "express": "4.14.1",
+    "express": "4.15.0",
     "request": "2.79.0",
     "request-promise-native": "1.0.3",
     "vott": "1.8.2"
@@ -44,9 +44,7 @@
     "eslint": "3.16.0",
     "eslint-config-standard": "6.2.0",
     "eslint-plugin-promise": "3.4.2",
-    "eslint-plugin-standard": "2.1.0",
-    "nock": "9.0.9",
-    "nyc": "10.1.0"
+    "eslint-plugin-standard": "2.1.0"
   },
   "ava": {
     "require": [
