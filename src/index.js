@@ -178,15 +178,17 @@ export class MessengerBot extends Vott {
   }
 
   /** sets up webhooks */
-  setupWebhooks (webserver = this.webserver) {
-    if (webserver) {
-      webserver.post(this.config.endpoint, this._post.bind(this))
-      webserver.get(this.config.endpoint, this._get.bind(this))
-    } else {
-      throw Error('No web server set or passed as argument')
-    }
-
+  setupWebhooks (webserver = this.webserver, endpoint = this.config.endpoint) {
+    webserver.post(endpoint, this._post.bind(this))
+    webserver.get(endpoint, this._get.bind(this))
     return this
+  }
+
+  useAsMiddleware () {
+    const router = express.Router()
+
+    this.setupWebhooks(router, '/')
+    return router
   }
 }
 

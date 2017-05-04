@@ -2,6 +2,9 @@ import test from 'ava'
 import MessengerBot from '../src/index'
 import nock from 'nock'
 import express from 'express'
+import bodyParser from 'body-parser'
+import request from 'supertest'
+import sinon from 'sinon'
 
 test.beforeEach((t) => {
   /** sender_action: plain text */
@@ -861,53 +864,61 @@ test('[VottMessenger#_post] 400 when missing fields', (t) => {
   })
 })
 
-test('[VottMessenger#setupWebhooks] properly sets up GET endpoint', (t) => {
+test('[VottMessenger#setupWebhooks] adds POST and GET endpoint to app/router', (t) => {
   const bot = new MessengerBot()
+  const router = {
+    get: sinon.spy(),
+    post: sinon.spy()
+  }
 
-  return new Promise((resolve, reject) => {
-    bot.setupServer(8082).setupWebhooks()
-    resolve(bot.webserver)
-  }).then((server) => {
-    let routeGET = server._router.stack
-      .filter(x => x.route && x.route.path === '/facebook/receive')
-      .filter(x => x.route.methods.get && x.route.methods.get === true)
+  const endpoint = '/'
 
-    let routePOST = server._router.stack
-      .filter(x => x.route && x.route.path === '/facebook/receive')
-      .filter(x => x.route.methods.post && x.route.methods.post === true)
+  const x = bot.setupWebhooks(router, endpoint)
 
-    t.true(routeGET.length > 0)
-    t.true(routePOST.length > 0)
-  })
+  t.true(router.get.calledOnce)
+  t.true(router.post.calledOnce)
+  t.true(x === bot)
 })
 
-test('[VottMessenger#setupWebhooks] modifies app passed as argument', (t) => {
-  const bot = new MessengerBot()
-  const app = express()
-
-  return new Promise((resolve, reject) => {
-    bot.setupWebhooks(app)
-    app.listen()
-
-    resolve(app)
-  }).then((server) => {
-    let routeGET = server._router.stack
-      .filter(x => x.route && x.route.path === '/facebook/receive')
-      .filter(x => x.route.methods.get && x.route.methods.get === true)
-
-    let routePOST = server._router.stack
-      .filter(x => x.route && x.route.path === '/facebook/receive')
-      .filter(x => x.route.methods.post && x.route.methods.post === true)
-
-    t.true(routeGET.length > 0)
-    t.true(routePOST.length > 0)
-  })
-})
-
-test('[VottMessenger#setupWebhooks] throws when no webserver', (t) => {
+test('[VottMessenger#setupWebhooks] throws when no arguments are passed', (t) => {
   const bot = new MessengerBot()
 
   t.throws(() => {
     bot.setupWebhooks()
   })
+})
+
+// Builds a basic express app with JSON parser
+const expressAppFactory = () => {
+  const app = express()
+
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
+
+  return app
+}
+
+// Builds an express app with a MessengerBot as middleware
+const botAsExpressMiddleware = () => {
+  const app = expressAppFactory()
+
+  const bot = new MessengerBot({
+    access_token: 'ABC',
+    verify_token: 'FB',
+    port: 5000
+  })
+
+  app.use('/facebook/receive', bot.useAsMiddleware())
+
+  return app
+}
+
+test('[VottMessenger#useAsMiddleware] serves as middleware to express app', async (t) => {
+  const res = await request(botAsExpressMiddleware())
+    .get('/facebook/receive?hub.mode=subscribe&hub.verify_token=FB&hub.challenge=blah')
+    .set('Content-Type', 'application/json')
+    .send()
+
+  t.is(res.status, 200)
+  t.is(res.text, 'blah')
 })
