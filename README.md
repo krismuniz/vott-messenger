@@ -49,7 +49,17 @@ myBot.on('message_received', (bot, event) => {
 
 ## Documentation
 
-Documentation, guides, and API reference coming soon. :)
+### Guides
+* [Installing Vott for Messenger](https://github.com/krismuniz/vott-messenger/wiki/Installing)
+* Getting Started
+* Serving Multiple Pages
+* Adding Persistence Layers
+* Adding Middleware
+* Adding Plugins
+
+### Reference
+
+* [API Reference](https://github.com/krismuniz/vott-messenger/wiki/Reference)
 
 ## Contributing
 [![Dev Dependency Status](https://img.shields.io/david/dev/krismuniz/vott-messenger.svg?style=flat-square)](https://david-dm.org/krismuniz/vott-messenger) [![Code-Style:Standard](https://img.shields.io/badge/code%20style-standard-yellow.svg?style=flat-square)](http://standardjs.com/)
@@ -62,7 +72,7 @@ Something does not work as expected or perhaps you think this module needs a fea
 
 Pull Requests (PRs) are welcome. Make sure you follow the [same basic stylistic conventions](http://standardjs.com/rules.html) as the original code. Your changes must be concise and focus on solving a single problem.
 
-#### Installation Instructions [for Contributors]
+#### Build Instructions for Contributors
 
 Clone the repo:
 
