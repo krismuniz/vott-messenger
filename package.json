@@ -38,7 +38,7 @@
     "babel-preset-latest": "6.24.1",
     "babel-register": "6.24.0",
     "coveralls": "2.11.16",
-    "cross-env": "3.2.4",
+    "cross-env": "5.0.0",
     "nock": "9.0.13",
     "nyc": "10.3.2",
     "eslint": "3.18.0",
