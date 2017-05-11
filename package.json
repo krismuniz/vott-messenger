@@ -28,7 +28,7 @@
     "body-parser": "1.17.1",
     "express": "4.15.2",
     "request": "2.79.0",
-    "request-promise-native": "1.0.3",
+    "request-promise-native": "1.0.4",
     "vott": "1.8.2"
   },
   "devDependencies": {
