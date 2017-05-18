@@ -30,7 +30,8 @@ const MessengerBot = require('vott-messenger')
 /** instantiate MessengerBot */
 const myBot = new MessengerBot({
   access_token: process.env.FB_PAGE_ACCESS_TOKEN,
-  verify_token: process.env.FB_VERIFY_TOKEN
+  verify_token: process.env.FB_VERIFY_TOKEN,
+  endpoint: '/facebook/receive'
 })
 
 /** usage example: */
@@ -45,6 +46,11 @@ myBot.on('message_received', (bot, event) => {
     chat.next()
   })
 })
+
+myBot.setupServer(process.env.PORT, (err, server) => {
+  if (err) throw Error(err)
+  console.log(`Server listening on port ${process.env.PORT}`)
+}).setupWebhooks()
 ```
 
 ## Documentation
