@@ -375,6 +375,7 @@ test('[VottMessenger#receive] emits payment', (t) => {
         id: 'songo',
         page_id: 'my_page'
       },
+      chat_enabled: true,
       payment: {
         prop_a: 'A',
         prop_b: 'B'
@@ -386,6 +387,7 @@ test('[VottMessenger#receive] emits payment', (t) => {
         id: 'songo',
         page_id: 'my_page'
       },
+      chat_enabled: true,
       payment: {
         prop_a: 'A',
         prop_b: 'B'
@@ -445,6 +447,7 @@ test('[VottMessenger#receive] emits checkout_update', (t) => {
         id: 'songo',
         page_id: 'my_page'
       },
+      chat_enabled: true,
       checkout_update: {
         prop_a: 'A',
         prop_b: 'B'
@@ -456,6 +459,7 @@ test('[VottMessenger#receive] emits checkout_update', (t) => {
         id: 'songo',
         page_id: 'my_page'
       },
+      chat_enabled: true,
       checkout_update: {
         prop_a: 'A',
         prop_b: 'B'
