@@ -388,6 +388,10 @@ test('[VottMessenger#receive] emits payment', (t) => {
         page_id: 'my_page'
       },
       chat_enabled: true,
+      message: {
+        prop_a: 'A',
+        prop_b: 'B'
+      },
       payment: {
         prop_a: 'A',
         prop_b: 'B'
@@ -460,6 +464,10 @@ test('[VottMessenger#receive] emits checkout_update', (t) => {
         page_id: 'my_page'
       },
       chat_enabled: true,
+      message: {
+        prop_a: 'A',
+        prop_b: 'B'
+      },
       checkout_update: {
         prop_a: 'A',
         prop_b: 'B'
