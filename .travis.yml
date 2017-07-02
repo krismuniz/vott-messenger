@@ -12,5 +12,7 @@ notifications:
   email: false
 script:
   - npm test
+env:
+  CODECLIMATE_REPO_TOKEN: 7a7a01a50fadb0234d34b73a646fdd44b6784cfa49576726311cdc23d5ba27f6
 after_success:
     - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
