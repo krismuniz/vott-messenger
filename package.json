@@ -39,7 +39,7 @@
     "babel-register": "6.24.0",
     "coveralls": "2.11.16",
     "cross-env": "5.0.1",
-    "nock": "9.0.13",
+    "nock": "9.0.14",
     "nyc": "11.0.3",
     "eslint": "4.2.0",
     "eslint-config-standard": "6.2.0",
