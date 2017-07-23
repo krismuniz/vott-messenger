@@ -45,7 +45,7 @@
     "eslint-config-standard": "6.2.0",
     "eslint-plugin-promise": "3.4.2",
     "eslint-plugin-standard": "2.1.0",
-    "sinon": "2.3.6",
+    "sinon": "2.3.7",
     "supertest": "3.0.0"
   },
   "ava": {
