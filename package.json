@@ -25,7 +25,7 @@
     "conversational"
   ],
   "dependencies": {
-    "body-parser": "1.18.0",
+    "body-parser": "1.18.1",
     "express": "4.15.3",
     "request": "2.81.0",
     "request-promise-native": "1.0.4",
