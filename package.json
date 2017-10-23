@@ -1,6 +1,6 @@
 {
   "name": "vott-messenger",
-  "version": "0.13.2",
+  "version": "0.13.3",
   "description": "An extensible framework for building Messenger bots",
   "main": "./lib/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "express": "4.15.3",
     "request": "2.81.0",
     "request-promise-native": "1.0.4",
-    "vott": "1.8.2"
+    "vott": "1.8.3"
   },
   "devDependencies": {
     "ava": "0.22.0",
