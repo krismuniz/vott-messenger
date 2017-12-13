@@ -109,6 +109,8 @@ export class MessengerBot extends Vott {
         event.message = event.payment
 
         this.dispatch('payment', event)
+      } else if (event.pre_checkout) {
+        this.dispatch('pre_checkout', event)
       } else if (event.checkout_update) {
         event.chat_enabled = true
         event.message = event.checkout_update

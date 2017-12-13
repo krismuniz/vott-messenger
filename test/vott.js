@@ -564,6 +564,43 @@ test('[VottMessenger#receive] emits checkout_update', (t) => {
   })
 })
 
+test('[VottMessenger#receive] emits pre_checkout', (t) => {
+  const bot = new MessengerBot({
+    access_token: 'ABC'
+  })
+
+  return new Promise((resolve, reject) => {
+    bot.on('pre_checkout', (bot, event) => {
+      resolve(event)
+    })
+
+    bot.receive({
+      user: {
+        id: 'songo',
+        page_id: 'my_page'
+      },
+      chat_enabled: true,
+      pre_checkout: {
+        prop_a: 'A',
+        prop_b: 'B'
+      }
+    })
+  }).then((value) => {
+    t.deepEqual(value, {
+      user: {
+        id: 'songo',
+        page_id: 'my_page'
+      },
+      chat_enabled: true,
+      pre_checkout: {
+        prop_a: 'A',
+        prop_b: 'B'
+      },
+      event_type: 'pre_checkout'
+    })
+  })
+})
+
 test('[VottMessenger#receive] emits account_linking', (t) => {
   const bot = new MessengerBot({
     access_token: 'ABC'
