@@ -13,16 +13,28 @@ export class MessengerBot extends Vott {
   }
 
   send (event) {
-    const payload = { recipient: { id: event.user.id } }
+    const payload = {
+      recipient: { id: event.user.id }
+    }
+
+    if (event.messaging_type) {
+      payload.messaging_type = event.messaging_type
+    } else {
+      payload.messaging_type = !event.tag ? 'RESPONSE' : 'MESSAGE_TAG'
+    }
+
+    if (event.tag) {
+      payload.tag = event.tag
+    }
 
     if (event.sender_action) {
       payload.sender_action = event.sender_action
     } else {
       payload.message = event.message
+    }
 
-      if (event.message && event.message.notification_type) {
-        payload.notification_type = event.message.notification_type
-      }
+    if (event.notification_type) {
+      payload.notification_type = event.notification_type
     }
 
     if (!event.user.id && event.user.phone_number) {

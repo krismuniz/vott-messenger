@@ -17,6 +17,7 @@ test.beforeEach((t) => {
         text: 'hi'
       },
       notification_type: 'SILENT_PUSH',
+      messaging_type: 'RESPONSE',
       access_token: 'ABC'
     })
     .reply(200, {
@@ -31,6 +32,7 @@ test.beforeEach((t) => {
         id: '0'
       },
       sender_action: 'typing_on',
+      messaging_type: 'RESPONSE',
       access_token: 'ABC'
     })
     .reply(200, {
@@ -45,6 +47,7 @@ test.beforeEach((t) => {
         id: '0'
       },
       sender_action: 'typing_off',
+      messaging_type: 'RESPONSE',
       access_token: 'ABC'
     })
     .reply(200, {
@@ -61,11 +64,43 @@ test.beforeEach((t) => {
       message: {
         text: 'hi'
       },
+      messaging_type: 'RESPONSE',
       access_token: 'ABC'
     })
     .reply(200, {
       recipient_id: '0',
       message_id: 'mid.004'
+    })
+
+  nock('https://graph.facebook.com')
+    .post('/v2.6/me/messages', {
+      recipient: {
+        id: '0'
+      },
+      message: {
+        text: 'Your room has been upgraded!'
+      },
+      tag: 'RESERVATION_UPDATE',
+      messaging_type: 'MESSAGE_TAG'
+    })
+    .reply(200, {
+      recipient_id: '0',
+      message_id: 'mid.005'
+    })
+
+  nock('https://graph.facebook.com')
+    .post('/v2.6/me/messages', {
+      recipient: {
+        id: '0'
+      },
+      message: {
+        text: 'This is an update!'
+      },
+      messaging_type: 'UPDATE'
+    })
+    .reply(200, {
+      recipient_id: '0',
+      message_id: 'mid.006'
     })
 })
 
@@ -117,9 +152,9 @@ test('[VottMessenger#send] sends a text message', (t) => {
         id: '0',
         page_id: 'my_page'
       },
+      notification_type: 'SILENT_PUSH',
       message: {
-        text: 'hi',
-        notification_type: 'SILENT_PUSH'
+        text: 'hi'
       }
     })
   }).then((v) => {
@@ -191,6 +226,58 @@ test('[VottMessenger#send] uses phone number when !user.id', (t) => {
     t.deepEqual(v.response, {
       recipient_id: '0',
       message_id: 'mid.004'
+    })
+  })
+})
+
+test('[VottMessenger#send] sends a message with an alternate messaging_type', (t) => {
+  const bot = new MessengerBot({
+    access_token: 'ABC'
+  })
+
+  return new Promise((resolve, reject) => {
+    bot.on('message_sent', (event) => { resolve(event) })
+
+    bot.send({
+      user: {
+        id: '0',
+        page_id: 'my_page'
+      },
+      messaging_type: 'UPDATE',
+      message: {
+        text: 'This is an update!'
+      }
+    })
+  }).then((v) => {
+    t.deepEqual(v.response, {
+      recipient_id: '0',
+      message_id: 'mid.006'
+    })
+  })
+})
+
+test('[VottMessenger#send] sends a message with a messaging tag', (t) => {
+  const bot = new MessengerBot({
+    access_token: 'ABC'
+  })
+
+  return new Promise((resolve, reject) => {
+    bot.on('message_sent', (event) => { resolve(event) })
+
+    bot.send({
+      user: {
+        id: '0',
+        page_id: 'my_page'
+      },
+      tag: 'RESERVATION_UPDATE',
+      message: {
+        text: 'Your room has been upgraded!'
+      }
+    })
+  }).then((v) => {
+    t.deepEqual(v.response, {
+      recipient_id: '0',
+      message_id: 'mid.005'
     })
   })
 })
