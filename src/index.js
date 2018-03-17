@@ -48,7 +48,7 @@ export class MessengerBot extends Vott {
         this.outbound(payload, (bot, message) => {
           const options = {
             method: 'POST',
-            uri: 'https://graph.facebook.com/v2.6/me/messages',
+            uri: this.config.api_url || 'https://graph.facebook.com/v2.6/me/messages',
             body: message,
             json: true
           }
