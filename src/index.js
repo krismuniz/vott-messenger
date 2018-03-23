@@ -160,17 +160,18 @@ export class MessengerBot extends Vott {
     if (req.body && req.body.entry) {
       req.body.entry.forEach((entry) => {
         if (entry.messaging) {
-          entry.messaging.forEach((message) => {
+          entry.messaging.forEach((e) => {
+            const isEcho = e.message && e.message.is_echo === true
             const event = {
               user: {
-                id: message.sender.id,
-                page_id: message.recipient.id
+                id: isEcho ? e.recipient.id : e.sender.id,
+                page_id: isEcho ? e.sender.id : e.recipient.id
               }
             }
 
-            for (let key in message) {
+            for (let key in e) {
               if (key !== 'sender' && key !== 'recipient') {
-                event[key] = message[key]
+                event[key] = e[key]
               }
             }
 

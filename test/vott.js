@@ -977,6 +977,50 @@ test('[VottMessenger#_post] properly receives message requests', (t) => {
   })
 })
 
+test('[VottMessenger#_post] properly receives message echoes', (t) => {
+  const bot = new MessengerBot()
+
+  const mockRequest = {
+    body: {
+      entry: [
+        {
+          messaging: [
+            {
+              sender: { id: 'my_page' },
+              recipient: { id: '0' },
+              message: {
+                is_echo: true,
+                text: 'Hello user!'
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+  return new Promise((resolve, reject) => {
+    const mockResponse = {
+      send: (arg) => {},
+      sendStatus: (arg) => {}
+    }
+
+    bot.use('inbound', (bot, event, next) => {
+      resolve(event)
+    })
+
+    bot._post(mockRequest, mockResponse)
+  }).then((event) => {
+    t.deepEqual(event, {
+      message: {
+        is_echo: true,
+        text: 'Hello user!'
+      },
+      user: { id: '0', page_id: 'my_page' }
+    })
+  })
+})
+
 test('[VottMessenger#_post] 400 when missing fields', (t) => {
   const bot = new MessengerBot()
 
