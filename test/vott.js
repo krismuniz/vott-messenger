@@ -81,7 +81,8 @@ test.beforeEach((t) => {
         text: 'Your room has been upgraded!'
       },
       tag: 'RESERVATION_UPDATE',
-      messaging_type: 'MESSAGE_TAG'
+      messaging_type: 'MESSAGE_TAG',
+      access_token: 'ABC'
     })
     .reply(200, {
       recipient_id: '0',
@@ -96,7 +97,8 @@ test.beforeEach((t) => {
       message: {
         text: 'This is an update!'
       },
-      messaging_type: 'UPDATE'
+      messaging_type: 'UPDATE',
+      access_token: 'ABC'
     })
     .reply(200, {
       recipient_id: '0',
@@ -230,32 +232,6 @@ test('[VottMessenger#send] uses phone number when !user.id', (t) => {
   })
 })
 
-test('[VottMessenger#send] sends a message with an alternate messaging_type', (t) => {
-  const bot = new MessengerBot({
-    access_token: 'ABC'
-  })
-
-  return new Promise((resolve, reject) => {
-    bot.on('message_sent', (event) => { resolve(event) })
-
-    bot.send({
-      user: {
-        id: '0',
-        page_id: 'my_page'
-      },
-      messaging_type: 'UPDATE',
-      message: {
-        text: 'This is an update!'
-      }
-    })
-  }).then((v) => {
-    t.deepEqual(v.response, {
-      recipient_id: '0',
-      message_id: 'mid.006'
-    })
-  })
-})
-
 test('[VottMessenger#send] sends a message with a messaging tag', (t) => {
   const bot = new MessengerBot({
     access_token: 'ABC'
@@ -278,6 +254,33 @@ test('[VottMessenger#send] sends a message with a messaging tag', (t) => {
     t.deepEqual(v.response, {
       recipient_id: '0',
       message_id: 'mid.005'
+    })
+  })
+})
+
+test('[VottMessenger#send] sends a message with an alternate messaging_type', (t) => {
+  const bot = new MessengerBot({
+    access_token: 'ABC'
+  })
+  return new Promise((resolve, reject) => {
+    bot.on('message_sent', (event) => {
+      resolve(event)
+    })
+
+    bot.send({
+      user: {
+        id: '0',
+        page_id: 'my_page'
+      },
+      messaging_type: 'UPDATE',
+      message: {
+        text: 'This is an update!'
+      }
+    })
+  }).then((v) => {
+    t.deepEqual(v.response, {
+      recipient_id: '0',
+      message_id: 'mid.006'
     })
   })
 })
