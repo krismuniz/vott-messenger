@@ -1,3 +1,5 @@
+/* eslint standard/no-callback-literal: 0 */
+
 import Vott from 'vott'
 import express from 'express'
 import bodyParser from 'body-parser'
