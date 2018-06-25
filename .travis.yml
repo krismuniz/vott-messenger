@@ -1,8 +1,6 @@
 language: node_js
 node_js:
-  - "7"
-  - "6"
-  - "5"
+  - "lts/*"
   - "node"
 before_install:
   - "npm install -g npm@latest"
